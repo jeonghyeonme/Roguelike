@@ -44,23 +44,26 @@ TagManager:
   - name: Ground
     uniqueID: 895090625
     locked: 0
-  - name: Walkinfront
+  - name: DecorinFront
+    uniqueID: 1859025751
+    locked: 0
+  - name: WalkinFront
     uniqueID: 73278191
     locked: 0
   - name: Collision
     uniqueID: 263250809
     locked: 0
+  - name: Player
+    uniqueID: 3647526515
+    locked: 0
+  - name: CollisionLow
+    uniqueID: 189193695
+    locked: 0
   - name: WalkBehind
     uniqueID: 2978646997
     locked: 0
-  - name: Decor_Down
-    uniqueID: 906457733
-    locked: 0
-  - name: Decor
-    uniqueID: 1859025751
-    locked: 0
-  - name: Player
-    uniqueID: 3647526515
+  - name: DecorBehind
+    uniqueID: 4114102675
     locked: 0
   m_RenderingLayers:
   - Default
