@@ -4,16 +4,19 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [Header("스폰 대상")]
-    public GameObject[] enemyPrefabs;       // 소환할 적 프리팹 목록
+    public GameObject[] enemyPrefabs;
 
-    [Header("플레이어 정보")]
-    public Transform playerTransform;       // 거리 체크 대상: 플레이어
+    [Header("플레이어")]
+    public Transform playerTransform;
 
     [Header("스폰 조건")]
-    public float spawnDistance = 5f;        // 플레이어가 이 거리 이내로 오면 스폰
-    public bool onlyOnce = true;            // 한 번만 스폰할 것인지 여부
+    public float spawnDistance = 5f;
+    public bool onlyOnce = false;
 
-    private bool hasSpawned = false;        // 중복 스폰 방지 플래그
+    [Header("쿨다운")]
+    public float cooldownTime = 3f;
+    private float cooldownTimer = 0f;
+    private bool hasSpawned = false;
 
     void Update()
     {
@@ -21,12 +24,20 @@ public class EnemySpawner : MonoBehaviour
             return;
 
         float distance = Vector2.Distance(transform.position, playerTransform.position);
-        UnityEngine.Debug.Log($"[Spawner] Player distance: {distance}");
+        cooldownTimer += Time.deltaTime;
 
-        if (distance <= spawnDistance && (!onlyOnce || !hasSpawned))
+        UnityEngine.Debug.Log($"[Spawner: {name}] Distance: {distance}");
+
+        if (distance <= spawnDistance && cooldownTimer >= cooldownTime)
         {
             SpawnEnemy();
-            hasSpawned = true;
+            cooldownTimer = 0f;
+
+            if (onlyOnce && !hasSpawned)
+            {
+                hasSpawned = true;
+                enabled = false; // 스크립트 비활성화로 반복 방지
+            }
         }
     }
 
@@ -34,6 +45,6 @@ public class EnemySpawner : MonoBehaviour
     {
         int index = UnityEngine.Random.Range(0, enemyPrefabs.Length);
         GameObject enemy = Instantiate(enemyPrefabs[index], transform.position, Quaternion.identity);
-        UnityEngine.Debug.Log($"[Spawned] {enemy.name} at {transform.position}");
+        UnityEngine.Debug.Log($"[Spawner: {name}] Spawned {enemy.name}");
     }
 }

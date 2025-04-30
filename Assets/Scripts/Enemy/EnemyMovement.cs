@@ -1,10 +1,11 @@
+﻿using System.Diagnostics;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
     public enum EnemyState { Idle, Chase }
 
-    [Header("�̵� ����")]
+    [Header("이동 설정")]
     public float moveSpeed = 3f;
     public Transform target;
 
@@ -22,6 +23,16 @@ public class EnemyMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        // 🎯 씬 내 Player 오브젝트 자동 참조
+        if (target == null)
+        {
+            GameObject playerObj = GameObject.FindWithTag("Player");
+            if (playerObj != null)
+                target = playerObj.transform;
+            else
+                UnityEngine.Debug.LogWarning("[EnemyMovement] Player not found in scene!");
+        }
 
         ChangeState(EnemyState.Idle);
     }
@@ -63,7 +74,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if (state == EnemyState.Chase)
         {
-            // Good to use Later
+            // 나중에 사용할 로직
         }
     }
 
@@ -71,7 +82,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if (state == EnemyState.Chase)
         {
-            // Good to use Later
+            // 나중에 사용할 로직
         }
     }
 
