@@ -5,6 +5,9 @@ public class PlayerMovement : MonoBehaviour
 {
     public enum PlayerState { Idle, Move, Dash }
 
+    [Header("Camera")]
+    public Camera mainCamera;
+
     [Header("Movement Config")]
     public float moveSpeed = 5f;
 
@@ -186,8 +189,10 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleSpriteFlip()
     {
-        if (movement.x != 0)
-            spriteRenderer.flipX = movement.x < 0;
+        if (mainCamera == null) return;
+
+        Vector3 mouseWorld = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        spriteRenderer.flipX = mouseWorld.x < transform.position.x;
     }
 
     bool CanDash()
