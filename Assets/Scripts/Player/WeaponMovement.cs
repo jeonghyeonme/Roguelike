@@ -1,57 +1,84 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class WeaponMovement : MonoBehaviour
 {
     [Header("References")]
-    public Transform playerTransform;               // ÇÃ·¹ÀÌ¾î À§Ä¡
-    public Transform weaponSpriteTransform;         // ¹«±â Sprite°¡ ºÙÀº ÀÚ½Ä ¿ÀºêÁ§Æ®
+    public Transform playerTransform;
+    public Transform weaponSpriteTransform;
     public Camera mainCamera;
+    public Animator weaponAnimator;
+
+    private SpriteRenderer weaponSpriteRenderer;  // ğŸ” flipX ì²˜ë¦¬ìš© SpriteRenderer
 
     [Header("Offset")]
-    public Vector3 rightOffset = new Vector3(0.5f, -0.2f, 0f); // ¿À¸¥ÂÊ ¼Õ À§Ä¡
-    public Vector3 leftOffset = new Vector3(-0.5f, -0.2f, 0f); // ¿ŞÂÊ ¼Õ À§Ä¡
+    public Vector3 rightOffset = new Vector3(0.5f, -0.2f, 0f);
+    public Vector3 leftOffset = new Vector3(-0.5f, -0.2f, 0f);
 
     [Header("Rotation")]
-    public float rotationSmoothSpeed = 15f;         // È¸Àü ºÎµå·¯¿ò Á¤µµ
+    public float rotationSmoothSpeed = 15f;
+
+    [Header("Attack")]
+    public float attackCooldown = 0.4f;
+    private float lastAttackTime = -999f;
+
+    private bool isMouseLeft = false;
+
+    void Start()
+    {
+        if (weaponAnimator == null && weaponSpriteTransform != null)
+            weaponAnimator = weaponSpriteTransform.GetComponent<Animator>();
+
+        if (weaponSpriteTransform != null)
+            weaponSpriteRenderer = weaponSpriteTransform.GetComponent<SpriteRenderer>();
+    }
+
+    void Update()
+    {
+        if (playerTransform == null || mainCamera == null || weaponAnimator == null)
+            return;
+
+        // ë§ˆìš°ìŠ¤ ìœ„ì¹˜ ê¸°ë°˜ ë°©í–¥ íŒë‹¨
+        Vector3 mouseScreenPos = Input.mousePosition;
+        Vector3 playerScreenPos = mainCamera.WorldToScreenPoint(playerTransform.position);
+        isMouseLeft = mouseScreenPos.x < playerScreenPos.x;
+
+        // ë°©í–¥ ì „ë‹¬
+        weaponAnimator.SetBool("IsLeft", isMouseLeft);
+
+        // ğŸ” flip ì²˜ë¦¬ ë³µêµ¬
+        if (weaponSpriteRenderer != null)
+            weaponSpriteRenderer.flipX = isMouseLeft;
+
+        // ê³µê²© ì…ë ¥ ì²˜ë¦¬
+        if (Input.GetMouseButtonDown(0) && Time.time >= lastAttackTime + attackCooldown)
+        {
+            weaponAnimator.SetTrigger("Attack");
+            lastAttackTime = Time.time;
+        }
+    }
 
     void LateUpdate()
     {
         if (playerTransform == null || mainCamera == null || weaponSpriteTransform == null)
             return;
 
-        // ¸¶¿ì½º ¹× ÇÃ·¹ÀÌ¾îÀÇ ½ºÅ©¸° ÁÂÇ¥
-        Vector3 mouseScreenPos = Input.mousePosition;
-        Vector3 playerScreenPos = mainCamera.WorldToScreenPoint(playerTransform.position);
-        bool isMouseLeft = mouseScreenPos.x < playerScreenPos.x;
-
-        // ¹«±â À§Ä¡ ¾÷µ¥ÀÌÆ®
+        // ë¬´ê¸° ìœ„ì¹˜ ì„¤ì •
         Vector3 offset = isMouseLeft ? leftOffset : rightOffset;
         transform.position = playerTransform.position + offset;
 
-        // ¸¶¿ì½º ¹æÇâ °è»ê
-        Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(mouseScreenPos);
+        // íšŒì „ ì²˜ë¦¬
+        Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0f;
 
         Vector3 direction = (mouseWorldPos - transform.position).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        // ¿ŞÂÊÀÏ °æ¿ì È¸Àü °¢µµ º¸Á¤
-        if (isMouseLeft)
-        {
-            angle += 180f;
-        }
+        if (isMouseLeft) angle += 180f;
 
-        // È¸Àü Àû¿ë
-        Quaternion targetRotation = Quaternion.Euler(0f, 0f, angle);
-        weaponSpriteTransform.rotation = Quaternion.Lerp(
-            weaponSpriteTransform.rotation,
-            targetRotation,
+        transform.rotation = Quaternion.Lerp(
+            transform.rotation,
+            Quaternion.Euler(0f, 0f, angle),
             rotationSmoothSpeed * Time.deltaTime
         );
-
-        // ÁÂ¿ì flip (scale.x ¹İÀü)
-        Vector3 scale = weaponSpriteTransform.localScale;
-        scale.x = isMouseLeft ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x);
-        weaponSpriteTransform.localScale = scale;
     }
 }

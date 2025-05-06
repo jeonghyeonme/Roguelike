@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
@@ -15,7 +14,6 @@ public class EnemyMovement : MonoBehaviour
 
     private Vector2 moveDirection;
     private Vector2 lastMoveDirection;
-
     private EnemyState currentState;
 
     void Start()
@@ -24,7 +22,7 @@ public class EnemyMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        // 🎯 씬 내 Player 오브젝트 자동 참조
+        // 🎯 Player 태그로 타겟 자동 설정
         if (target == null)
         {
             GameObject playerObj = GameObject.FindWithTag("Player");
@@ -61,7 +59,7 @@ public class EnemyMovement : MonoBehaviour
     }
 
     // ========================
-    // States
+    // 상태 전이 메서드
     // ========================
     void ChangeState(EnemyState newState)
     {
@@ -74,7 +72,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if (state == EnemyState.Chase)
         {
-            // 나중에 사용할 로직
+            // 추후 초기화 로직 삽입 가능
         }
     }
 
@@ -82,17 +80,18 @@ public class EnemyMovement : MonoBehaviour
     {
         if (state == EnemyState.Chase)
         {
-            // 나중에 사용할 로직
+            // 추후 종료 로직 삽입 가능
         }
     }
 
     // ========================
-    // Updates
+    // 상태 업데이트
     // ========================
     void UpdateIdleState()
     {
         if (target != null)
         {
+            // ※ 추후 거리 조건 추가 가능
             ChangeState(EnemyState.Chase);
         }
     }
@@ -111,7 +110,7 @@ public class EnemyMovement : MonoBehaviour
     }
 
     // ========================
-    // FixedUpdates
+    // FixedUpdate 전용
     // ========================
     void FixedUpdateChaseState()
     {
@@ -119,7 +118,7 @@ public class EnemyMovement : MonoBehaviour
     }
 
     // ========================
-    // Methods
+    // 내부 메서드
     // ========================
     void UpdateMoveDirection()
     {

@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 2244357710041718490}
   - component: {fileID: 8447945959841223190}
   - component: {fileID: 5901157222691819282}
+  - component: {fileID: 1409645992074066484}
   m_Layer: 0
   m_Name: Rat_Base
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,7 +102,7 @@ Animator:
   m_GameObject: {fileID: 7749240636396559051}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7961893d5f19df943a899d6e6fde4386, type: 2}
+  m_Controller: {fileID: 9100000, guid: abb45443b7a908c4db1ab2a87a7cee07, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -200,3 +201,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   target: {fileID: 0}
+--- !u!114 &1409645992074066484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7749240636396559051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82a042ab67955f441b1024e67e055738, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 2

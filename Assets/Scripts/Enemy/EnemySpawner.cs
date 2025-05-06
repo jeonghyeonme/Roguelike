@@ -26,7 +26,7 @@ public class EnemySpawner : MonoBehaviour
         float distance = Vector2.Distance(transform.position, playerTransform.position);
         cooldownTimer += Time.deltaTime;
 
-        UnityEngine.Debug.Log($"[Spawner: {name}] Distance: {distance}");
+        /*UnityEngine.Debug.Log($"[Spawner: {name}] Distance: {distance}");*/
 
         if (distance <= spawnDistance && cooldownTimer >= cooldownTime)
         {

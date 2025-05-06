@@ -3293,7 +3293,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.03064, y: -1.3364301, z: -10}
+  m_LocalPosition: {x: 0.10062944, y: -1.33643, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3433,7 +3433,7 @@ Transform:
   m_GameObject: {fileID: 742592015}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.36723, y: -7.734262, z: -10}
+  m_LocalPosition: {x: 0.10063435, y: -1.4742618, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17013,7 +17013,7 @@ Transform:
   m_GameObject: {fileID: 1634816142}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.39, y: -7.44, z: 0}
+  m_LocalPosition: {x: 0.13, y: -1.18, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -17084,8 +17084,8 @@ BoxCollider2D:
   m_Offset: {x: 0.004, y: 0.15}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.28, y: 0.31}
+    pivot: {x: 0.5652174, y: 0}
+    oldSize: {x: 0.23, y: 0.3}
     newSize: {x: 0.28, y: 0.31}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -17127,6 +17127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff32436775c29404eabad29344533287, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}
   moveSpeed: 4
   dashSpeed: 15
   dashDuration: 0.2
@@ -17223,8 +17224,8 @@ BoxCollider2D:
   m_Offset: {x: 0.0050000288, y: 0.15}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.28, y: 0.31}
+    pivot: {x: 0.5652174, y: 0}
+    oldSize: {x: 0.23, y: 0.3}
     newSize: {x: 0.28, y: 0.31}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -17294,7 +17295,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
