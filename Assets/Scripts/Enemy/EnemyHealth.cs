@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using UnityEngine;
 
-public class EnemyHealth : MonoBehaviour
+public class EnemyHealth : MonoBehaviour, IDamageable
 {
     public int maxHealth = 3;
     private int currentHealth;
