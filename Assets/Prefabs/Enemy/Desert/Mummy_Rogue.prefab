@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: -406138589186187586}
   - component: {fileID: 7824014351685828742}
   m_Layer: 0
-  m_Name: Mummy_Base
+  m_Name: Mummy_Rogue
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -207,7 +207,7 @@ Transform:
   m_GameObject: {fileID: 6022732832708531100}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.64, y: -0.59, z: -0.010835024}
+  m_LocalPosition: {x: -9.57, y: 6.33, z: -0.010835024}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -258,7 +258,7 @@ SpriteRenderer:
   m_SortingLayerID: -647440781
   m_SortingLayer: 5
   m_SortingOrder: 0
-  m_Sprite: {fileID: -4855666316433504266, guid: 812cea2b6f975fd4092a00cc3e60f87f, type: 3}
+  m_Sprite: {fileID: -666799941828653429, guid: 4bd3d67bb1162b648a6a727296220637, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -279,7 +279,7 @@ Animator:
   m_GameObject: {fileID: 6022732832708531100}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 62e5ca7f43ee37d48b6dae69c8fdafbc, type: 2}
+  m_Controller: {fileID: 9100000, guid: a13d3d080331b1f4c8fca2f74f93c918, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -355,8 +355,8 @@ BoxCollider2D:
   m_Offset: {x: -0.07499999, y: 0.75}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.61904764, y: 0}
-    oldSize: {x: 1.05, y: 1.55}
+    pivot: {x: 0.5909091, y: 0}
+    oldSize: {x: 1.1, y: 1.55}
     newSize: {x: 0.35, y: 0.49}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

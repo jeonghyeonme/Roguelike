@@ -16,13 +16,14 @@ public class EnemyMovement : MonoBehaviour
     private Vector2 lastMoveDirection;
     private EnemyState currentState;
 
+    private bool isDead = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        // 🎯 Player 태그로 타겟 자동 설정
         if (target == null)
         {
             GameObject playerObj = GameObject.FindWithTag("Player");
@@ -37,6 +38,8 @@ public class EnemyMovement : MonoBehaviour
 
     void Update()
     {
+        if (isDead) return;
+
         switch (currentState)
         {
             case EnemyState.Idle:
@@ -50,17 +53,12 @@ public class EnemyMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        switch (currentState)
-        {
-            case EnemyState.Chase:
-                FixedUpdateChaseState();
-                break;
-        }
+        if (isDead) return;
+
+        if (currentState == EnemyState.Chase)
+            FixedUpdateChaseState();
     }
 
-    // ========================
-    // 상태 전이 메서드
-    // ========================
     void ChangeState(EnemyState newState)
     {
         ExitState(currentState);
@@ -68,30 +66,13 @@ public class EnemyMovement : MonoBehaviour
         EnterState(newState);
     }
 
-    void EnterState(EnemyState state)
-    {
-        if (state == EnemyState.Chase)
-        {
-            // 추후 초기화 로직 삽입 가능
-        }
-    }
+    void EnterState(EnemyState state) { }
+    void ExitState(EnemyState state) { }
 
-    void ExitState(EnemyState state)
-    {
-        if (state == EnemyState.Chase)
-        {
-            // 추후 종료 로직 삽입 가능
-        }
-    }
-
-    // ========================
-    // 상태 업데이트
-    // ========================
     void UpdateIdleState()
     {
         if (target != null)
         {
-            // ※ 추후 거리 조건 추가 가능
             ChangeState(EnemyState.Chase);
         }
     }
@@ -109,26 +90,18 @@ public class EnemyMovement : MonoBehaviour
         HandleSpriteFlip();
     }
 
-    // ========================
-    // FixedUpdate 전용
-    // ========================
     void FixedUpdateChaseState()
     {
         Move();
     }
 
-    // ========================
-    // 내부 메서드
-    // ========================
     void UpdateMoveDirection()
     {
         Vector2 direction = (target.position - transform.position).normalized;
         moveDirection = direction;
 
         if (moveDirection != Vector2.zero)
-        {
             lastMoveDirection = moveDirection;
-        }
     }
 
     void UpdateAnimation()
@@ -143,13 +116,19 @@ public class EnemyMovement : MonoBehaviour
     void HandleSpriteFlip()
     {
         if (moveDirection.x != 0)
-        {
             spriteRenderer.flipX = moveDirection.x < 0;
-        }
     }
 
     void Move()
     {
         rb.MovePosition(rb.position + moveDirection * moveSpeed * Time.fixedDeltaTime);
+    }
+
+    public void OnDeath()
+    {
+        isDead = true;
+        rb.linearVelocity = Vector2.zero;
+        moveDirection = Vector2.zero;
+        animator.SetFloat("MoveMagnitude", 0);
     }
 }

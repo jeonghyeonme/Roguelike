@@ -39,10 +39,17 @@ public class EnemyWeaponHitbox : MonoBehaviour
         // LayerMask로 타겟 감지
         if (((1 << other.gameObject.layer) & targetLayer) != 0)
         {
+            // IDamageable 처리
             if (other.TryGetComponent(out IDamageable target))
             {
                 target.TakeDamage(damage);
                 UnityEngine.Debug.Log("Player just get DAMAGED.");
+            }
+
+            // DamageFeedback이 있다면 넉백/깜빡임
+            if (other.TryGetComponent(out DamageFeedback feedback))
+            {
+                feedback.TriggerFeedback(transform.position); // 무기 위치 기준 넉백 방향
             }
         }
     }

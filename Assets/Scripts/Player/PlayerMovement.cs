@@ -1,5 +1,4 @@
-using System.Diagnostics;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -24,9 +23,12 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private TrailRenderer trail;
+    private DamageFeedback feedback;
 
     private Vector2 movement;
     private Vector2 lastMoveDirection;
+
+    private bool isDead = false;  // ✅ 사망 상태 플래그
 
     void Start()
     {
@@ -34,12 +36,17 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         trail = GetComponentInChildren<TrailRenderer>();
+        feedback = GetComponent<DamageFeedback>();
 
         ChangeState(PlayerState.Idle);
     }
 
     void Update()
     {
+        if (isDead) return; // ✅ 사망 시 로직 차단
+        if (feedback != null && feedback.isStunned)
+            return;
+
         switch (currentState)
         {
             case PlayerState.Idle:
@@ -56,6 +63,10 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (isDead) return; // ✅ 사망 시 물리 이동 차단
+        if (feedback != null && feedback.isStunned)
+            return;
+
         switch (currentState)
         {
             case PlayerState.Idle:
@@ -116,7 +127,6 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdateMoveState()
     {
-        //UnityEngine.Debug.Log($"[FixedUpdate] moving with {movement}");
         if (movement == Vector2.zero) return;
         rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
     }
@@ -142,7 +152,7 @@ public class PlayerMovement : MonoBehaviour
         if (state == PlayerState.Dash)
         {
             dashTimer = 0f;
-            trail.emitting = true;
+            if (trail != null) trail.emitting = true;
         }
     }
 
@@ -150,7 +160,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (state == PlayerState.Dash)
         {
-            trail.emitting = false;
+            if (trail != null) trail.emitting = false;
         }
     }
 
@@ -162,9 +172,7 @@ public class PlayerMovement : MonoBehaviour
     {
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
-
         movement = new Vector2(movement.x, movement.y);
-
 
         if (movement.sqrMagnitude < 0.01f)
             movement = Vector2.zero;
@@ -198,5 +206,20 @@ public class PlayerMovement : MonoBehaviour
     bool CanDash()
     {
         return Time.time >= lastDashTime + dashCooldown;
+    }
+
+    // ========================
+    // Death Handling
+    // ========================
+
+    public void OnDeath()
+    {
+        isDead = true;
+        rb.linearVelocity = Vector2.zero;
+        movement = Vector2.zero;
+        animator.SetFloat("MoveMagnitude", 0);
+
+        if (trail != null)
+            trail.emitting = false;
     }
 }

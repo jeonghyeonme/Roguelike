@@ -1,20 +1,36 @@
-using System.Diagnostics;
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
     public int maxHealth = 3;
     private int currentHealth;
 
-    void Start()
+    private DamageFeedback feedback;
+    private Animator animator;
+    private EnemyMovement movement;
+
+    private bool isDead = false;
+
+    void Awake()
     {
         currentHealth = maxHealth;
+        feedback = GetComponent<DamageFeedback>();
+        animator = GetComponent<Animator>();
+        movement = GetComponent<EnemyMovement>();
     }
 
     public void TakeDamage(int amount)
     {
+        if (isDead) return;
+
         currentHealth -= amount;
-        UnityEngine.Debug.Log($"[Enemy] ÇÇ°Ý! ÇöÀç Ã¼·Â: {currentHealth}");
+        UnityEngine.Debug.Log($"[Enemy] í”¼ê²©! í˜„ìž¬ ì²´ë ¥: {currentHealth}");
+
+        if (feedback != null)
+        {
+            Vector2 knockSource = transform.position + Vector3.left;
+            feedback.TriggerFeedback(knockSource);
+        }
 
         if (currentHealth <= 0)
         {
@@ -24,7 +40,35 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     private void Die()
     {
-        UnityEngine.Debug.Log("[Enemy] »ç¸Á!");
-        Destroy(gameObject);  // Å×½ºÆ®¿ë: Àû ¿ÀºêÁ§Æ® »èÁ¦
+        isDead = true;
+        UnityEngine.Debug.Log("[Enemy] ì‚¬ë§!");
+
+        // ì´ë™ ì •ì§€
+        if (movement != null)
+            movement.OnDeath();
+
+        // ë¬´ê¸° ë¹„í™œì„±í™”
+        Transform weapon = transform.Find("WeaponPivot/Weapon");
+        if (weapon != null)
+            weapon.gameObject.SetActive(false);
+
+        // Rigidbody / Collider ë¹„í™œì„±í™”
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null) rb.simulated = false;
+
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = false;
+
+        // ì• ë‹ˆë©”ì´ì…˜
+        if (animator != null)
+            animator.SetTrigger("Die");
     }
+
+    // ðŸ”” ì• ë‹ˆë©”ì´ì…˜ ë§ˆì§€ë§‰ í”„ë ˆìž„ì—ì„œ í˜¸ì¶œë  ë©”ì„œë“œ
+    public void OnDeathAnimationEnd()
+    {
+        Destroy(gameObject);
+    }
+
+    public bool IsDead => isDead;
 }
