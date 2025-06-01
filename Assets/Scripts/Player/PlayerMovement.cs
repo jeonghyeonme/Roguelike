@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movement;
     private Vector2 lastMoveDirection;
 
-    private bool isDead = false;  // ✅ 사망 상태 플래그
+    private bool isDead = false;
 
     void Start()
     {
@@ -38,14 +38,16 @@ public class PlayerMovement : MonoBehaviour
         trail = GetComponentInChildren<TrailRenderer>();
         feedback = GetComponent<DamageFeedback>();
 
+        movement = Vector2.zero;
+        lastMoveDirection = Vector2.down;
+
         ChangeState(PlayerState.Idle);
     }
 
     void Update()
     {
-        if (isDead) return; // ✅ 사망 시 로직 차단
-        if (feedback != null && feedback.isStunned)
-            return;
+        if (isDead) return;
+        if (feedback != null && feedback.isStunned) return;
 
         switch (currentState)
         {
@@ -63,9 +65,8 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isDead) return; // ✅ 사망 시 물리 이동 차단
-        if (feedback != null && feedback.isStunned)
-            return;
+        if (isDead) return;
+        if (feedback != null && feedback.isStunned) return;
 
         switch (currentState)
         {
@@ -80,10 +81,6 @@ public class PlayerMovement : MonoBehaviour
                 break;
         }
     }
-
-    // ========================
-    // Updates
-    // ========================
 
     void UpdateIdleState()
     {
@@ -121,10 +118,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // ========================
-    // FixedUpdate
-    // ========================
-
     void FixedUpdateMoveState()
     {
         if (movement == Vector2.zero) return;
@@ -135,10 +128,6 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.MovePosition(rb.position + lastMoveDirection * dashSpeed * Time.fixedDeltaTime);
     }
-
-    // ========================
-    // States
-    // ========================
 
     void ChangeState(PlayerState newState)
     {
@@ -164,10 +153,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // ========================
-    // Methods
-    // ========================
-
     void HandleInput()
     {
         movement.x = Input.GetAxisRaw("Horizontal");
@@ -181,9 +166,7 @@ public class PlayerMovement : MonoBehaviour
     void UpdateDirection()
     {
         if (movement != Vector2.zero)
-        {
             lastMoveDirection = movement.normalized;
-        }
     }
 
     void UpdateAnimation()
@@ -207,10 +190,6 @@ public class PlayerMovement : MonoBehaviour
     {
         return Time.time >= lastDashTime + dashCooldown;
     }
-
-    // ========================
-    // Death Handling
-    // ========================
 
     public void OnDeath()
     {
