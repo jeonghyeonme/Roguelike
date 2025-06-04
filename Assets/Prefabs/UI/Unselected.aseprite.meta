@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b7e1f32452a011a4e93549a7826b689d
+guid: f139824e629492f46b3626f9e97455ad
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -36,7 +36,7 @@ ScriptedImporter:
     spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
-    spritePixelsToUnits: 20
+    spritePixelsToUnits: 100
     spriteBorder: {x: 0, y: 0, z: 0, w: 0}
     spriteGenerateFallbackPhysicsShape: 0
     generateCubemap: 6
@@ -98,7 +98,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638843871740635675
+  platformSettingsDirtyTick: 0
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -123,9 +123,9 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: LargePage
+  - name: Unselected
     originalName: 
-    pivot: {x: 0.08571429, y: 0.84950024}
+    pivot: {x: 0.45833334, y: -0.33333334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -133,9 +133,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 2415
-      height: 3402
-    spriteID: c36038c0f0761e746a72ca0abf083062
+      width: 72
+      height: 21
+    spriteID: 65b52ec223057f648b0dac1659978678
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -147,21 +147,21 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: -1193223234
-    name: LargePage
+    guid: 905820400
+    name: Unselected
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: LargePage
+    - name: Unselected
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 113
-        y: -2890
-        width: 2415
-        height: 3402
-      spriteId: c36038c0f0761e746a72ca0abf083062
+        x: 7
+        y: 7
+        width: 72
+        height: 21
+      spriteId: 65b52ec223057f648b0dac1659978678
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -177,44 +177,8 @@ ScriptedImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     androidETC2FallbackOverride: 0
-  - name: DefaultTexturePlatform
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 16384
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
-  - name: Standalone
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 16384
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
-  - name: Windows Store Apps
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 16384
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 640, y: 640}
-  previousTextureSize: {x: 4096, y: 4096}
+  canvasSize: {x: 80, y: 32}
+  previousTextureSize: {x: 128, y: 32}

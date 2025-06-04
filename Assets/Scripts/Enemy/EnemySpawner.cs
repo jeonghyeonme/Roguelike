@@ -1,50 +1,80 @@
-using System.Diagnostics;
+ï»¿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [Header("½ºÆù ´ë»ó")]
-    public GameObject[] enemyPrefabs;
+    [Header("ì  í”„ë¦¬íŒ¹")]
+    public List<GameObject> enemyPrefabs;
 
-    [Header("ÇÃ·¹ÀÌ¾î")]
+    [Header("í”Œë ˆì´ì–´")]
     public Transform playerTransform;
 
-    [Header("½ºÆù Á¶°Ç")]
+    [Header("ìŠ¤í° ì¡°ê±´")]
     public float spawnDistance = 5f;
-    public bool onlyOnce = false;
-
-    [Header("Äğ´Ù¿î")]
     public float cooldownTime = 3f;
+
+    [Header("UI")]
+    public GameObject dungeonClearUI;
+    public GameObject gameEndUI;
+
     private float cooldownTimer = 0f;
-    private bool hasSpawned = false;
+    private bool isClearTriggered = false;
+
+    void Start()
+    {
+        foreach (var enemy in enemyPrefabs)
+        {
+            EnemySpawnManager.Instance.RegisterEnemy(enemy);
+        }
+    }
 
     void Update()
     {
-        if (playerTransform == null || enemyPrefabs.Length == 0)
+        if (playerTransform == null || enemyPrefabs.Count == 0)
             return;
 
         float distance = Vector2.Distance(transform.position, playerTransform.position);
         cooldownTimer += Time.deltaTime;
 
-        /*UnityEngine.Debug.Log($"[Spawner: {name}] Distance: {distance}");*/
-
-        if (distance <= spawnDistance && cooldownTimer >= cooldownTime)
+        if (distance <= spawnDistance && cooldownTimer >= cooldownTime && !isClearTriggered)
         {
-            SpawnEnemy();
+            TrySpawnEnemy();
             cooldownTimer = 0f;
-
-            if (onlyOnce && !hasSpawned)
-            {
-                hasSpawned = true;
-                enabled = false; // ½ºÅ©¸³Æ® ºñÈ°¼ºÈ­·Î ¹İº¹ ¹æÁö
-            }
         }
     }
 
-    void SpawnEnemy()
+    void TrySpawnEnemy()
     {
-        int index = UnityEngine.Random.Range(0, enemyPrefabs.Length);
-        GameObject enemy = Instantiate(enemyPrefabs[index], transform.position, Quaternion.identity);
-        UnityEngine.Debug.Log($"[Spawner: {name}] Spawned {enemy.name}");
+        List<GameObject> spawnable = new();
+        foreach (var enemy in enemyPrefabs)
+        {
+            if (EnemySpawnManager.Instance.CanSpawn(enemy))
+                spawnable.Add(enemy);
+        }
+
+        if (spawnable.Count == 0)
+        {
+            TriggerDungeonClear();
+            return;
+        }
+
+        GameObject chosen = spawnable[UnityEngine.Random.Range(0, spawnable.Count)];
+        Instantiate(chosen, transform.position, Quaternion.identity);
+        EnemySpawnManager.Instance.RecordSpawn(chosen);
+
+        UnityEngine.Debug.Log($"[Spawner:{name}] {chosen.name} ìŠ¤í° ì™„ë£Œ");
+        EnemySpawnManager.Instance.LogRemainingSpawns();
+    }
+
+    void TriggerDungeonClear()
+    {
+        if (isClearTriggered) return;
+        isClearTriggered = true;
+
+        if (dungeonClearUI != null) dungeonClearUI.SetActive(true);
+        if (gameEndUI != null) gameEndUI.SetActive(true);
+
+        UnityEngine.Debug.Log("[Spawner] ë˜ì „ í´ë¦¬ì–´ ì¡°ê±´ ë§Œì¡± - ëª¨ë“  ì  ìŠ¤í° ì™„ë£Œ");
     }
 }

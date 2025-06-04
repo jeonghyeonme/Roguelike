@@ -376,7 +376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16b954faa70d4814dbb7f3ccf659495b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 1
   target: {fileID: 0}
 --- !u!114 &-406138589186187586
 MonoBehaviour:
@@ -390,7 +390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82a042ab67955f441b1024e67e055738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 2
+  maxHealth: 3
 --- !u!114 &7824014351685828742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -463,5 +463,5 @@ MonoBehaviour:
   rightOffset: {x: 0.5, y: 0.5, z: 0}
   leftOffset: {x: -0.5, y: 0.5, z: 0}
   rotationSmoothSpeed: 15
-  attackRange: 3
-  attackCooldown: 2
+  attackRange: 4
+  attackCooldown: 3
