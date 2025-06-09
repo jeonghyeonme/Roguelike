@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class EnemyWeaponHitbox : MonoBehaviour
 {
@@ -9,7 +9,7 @@ public class EnemyWeaponHitbox : MonoBehaviour
     public Collider2D hitboxCollider;
 
     [Header("Target Layer")]
-    public LayerMask targetLayer;  // ¿¹: Player¸¸ Æ÷ÇÔ
+    public LayerMask targetLayer;  // ì˜ˆ: Playerë§Œ í¬í•¨
 
     void Awake()
     {
@@ -36,20 +36,24 @@ public class EnemyWeaponHitbox : MonoBehaviour
     {
         if (!hitboxCollider.enabled) return;
 
-        // LayerMask·Î Å¸°Ù °¨Áö
+        // âœ… Enemy â†’ Enemy ê³µê²© ë¬´ì‹œ
+        if (CompareTag("Enemy") && other.CompareTag("Enemy"))
+            return;
+
+        // âœ… LayerMask ê²€ì‚¬
         if (((1 << other.gameObject.layer) & targetLayer) != 0)
         {
-            // IDamageable Ã³¸®
+            // ë°ë¯¸ì§€ ì²˜ë¦¬
             if (other.TryGetComponent(out IDamageable target))
             {
                 target.TakeDamage(damage);
                 UnityEngine.Debug.Log("Player just get DAMAGED.");
             }
 
-            // DamageFeedbackÀÌ ÀÖ´Ù¸é ³Ë¹é/±ôºıÀÓ
+            // í”¼ê²© í”¼ë“œë°±
             if (other.TryGetComponent(out DamageFeedback feedback))
             {
-                feedback.TriggerFeedback(transform.position); // ¹«±â À§Ä¡ ±âÁØ ³Ë¹é ¹æÇâ
+                feedback.TriggerFeedback(transform.position);
             }
         }
     }

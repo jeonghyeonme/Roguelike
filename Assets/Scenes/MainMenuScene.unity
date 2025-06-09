@@ -481,13 +481,55 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7546771236852589120, guid: 0bb25c93dd8303c40adab04658495c42, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1273721057}
+    - targetCorrespondingSourceObject: {fileID: 7291366794872856108, guid: 0bb25c93dd8303c40adab04658495c42, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1273721056}
   m_SourcePrefab: {fileID: 100100000, guid: 0bb25c93dd8303c40adab04658495c42, type: 3}
+--- !u!1 &1273721053 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7291366794872856108, guid: 0bb25c93dd8303c40adab04658495c42, type: 3}
+  m_PrefabInstance: {fileID: 1273721052}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1273721054 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6111129135886702305, guid: 0bb25c93dd8303c40adab04658495c42, type: 3}
   m_PrefabInstance: {fileID: 1273721052}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1273721055 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7546771236852589120, guid: 0bb25c93dd8303c40adab04658495c42, type: 3}
+  m_PrefabInstance: {fileID: 1273721052}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1273721056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1273721053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89983c95fd06c964fb7b9f8c32682f11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  darkenAmount: 0.15
+--- !u!114 &1273721057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1273721055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89983c95fd06c964fb7b9f8c32682f11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  darkenAmount: 0.15
 --- !u!1 &1474148584
 GameObject:
   m_ObjectHideFlags: 0

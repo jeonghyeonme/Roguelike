@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics;
+using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
     public int maxHealth = 5;
+    public GameObject gameManagerObject; // UI 오브젝트를 연결
     private int currentHealth;
 
     private DamageFeedback feedback;
@@ -66,8 +68,15 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public void OnDeathAnimationEnd()
     {
         UnityEngine.Debug.Log("[Player] 애니메이션 종료, 게임오버 처리 시작");
-        Destroy(gameObject);  // 또는 GameManager.Instance.GameOver();
-    }
 
+        if (gameManagerObject != null)
+        {
+            GameOverMenu menu = gameManagerObject.GetComponent<GameOverMenu>();
+            if (menu != null)
+            {
+                menu.Show();
+            }
+        }
+    }
     public bool IsDead => isDead;
 }
