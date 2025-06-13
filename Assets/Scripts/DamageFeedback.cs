@@ -4,13 +4,16 @@ using System.Collections;
 public class DamageFeedback : MonoBehaviour
 {
     [Header("Sprite Flash")]
-    [SerializeField] private SpriteRenderer targetSprite;        // 플레이어 본체 SpriteRenderer
-    [SerializeField] private SpriteRenderer weaponSprite;        // 무기 SpriteRenderer
-    [SerializeField] private Material whiteFlashMaterial;        // 깜빡임용 흰색 머티리얼
+    [SerializeField] private SpriteRenderer targetSprite;
+    [SerializeField] private SpriteRenderer weaponSprite;
+    [SerializeField] private Material whiteFlashMaterial;
     [SerializeField] private float flashDuration = 0.1f;
 
     private Material defaultMaterial;
     private Material weaponDefaultMaterial;
+
+    [Header("Camera Shake")]
+    [SerializeField] private CameraShake cameraShake; // ✅ 연결할 CameraShake.cs
 
     [Header("Knockback")]
     [SerializeField] private Rigidbody2D rb;
@@ -40,10 +43,9 @@ public class DamageFeedback : MonoBehaviour
     /// <summary>
     /// 피격 시 호출 (공격자의 위치 기준으로 넉백 방향 계산)
     /// </summary>
-    /// <param name="sourcePosition">공격자 위치</param>
     public void TriggerFeedback(Vector2 sourcePosition)
     {
-        UnityEngine.Debug.Log("[DamageFeedback] TriggerFeedback 호출됨");
+        Debug.Log("[DamageFeedback] TriggerFeedback 호출됨");
 
         if (feedbackRoutine != null)
             StopCoroutine(feedbackRoutine);
@@ -55,33 +57,44 @@ public class DamageFeedback : MonoBehaviour
     {
         isStunned = true;
 
-        // ✅ 1. 하얗게 깜빡임 적용
+        // ✅ 1. 깜빡임
         if (targetSprite != null && whiteFlashMaterial != null)
             targetSprite.material = whiteFlashMaterial;
 
         if (weaponSprite != null && whiteFlashMaterial != null)
             weaponSprite.material = whiteFlashMaterial;
 
-        // ✅ 2. 넉백 즉시 적용
+        // ✅ 2. 넉백
         if (rb != null)
         {
             Vector2 knockDir = (rb.position - sourcePosition).normalized;
             rb.linearVelocity = Vector2.zero;
             rb.AddForce(knockDir * knockbackForce, ForceMode2D.Impulse);
-            UnityEngine.Debug.Log($"[DamageFeedback] Knockback 방향: {knockDir}");
+            Debug.Log($"[DamageFeedback] Knockback 방향: {knockDir}");
         }
 
-        // ✅ 3. 깜빡임 시간 유지
+        // ✅ 3. 카메라 흔들림 호출
+        if (cameraShake != null)
+        {
+            Debug.Log("[DamageFeedback] cameraShake.Shake() 호출");
+            cameraShake.Shake(); // 흔들림 실행
+        }
+        else
+        {
+            Debug.LogWarning("[DamageFeedback] cameraShake가 연결되지 않았습니다.");
+        }
+
+        // ✅ 4. 깜빡임 시간 유지
         yield return new WaitForSeconds(flashDuration);
 
-        // ✅ 4. 머티리얼 복원
+        // ✅ 5. 머티리얼 복원
         if (targetSprite != null && defaultMaterial != null)
             targetSprite.material = defaultMaterial;
 
         if (weaponSprite != null && weaponDefaultMaterial != null)
             weaponSprite.material = weaponDefaultMaterial;
 
-        // ✅ 5. 추가 경직 시간 유지
+        // ✅ 6. 추가 경직
         yield return new WaitForSeconds(stunDuration);
 
         isStunned = false;
