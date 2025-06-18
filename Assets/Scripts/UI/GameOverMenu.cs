@@ -1,29 +1,63 @@
-using System.Diagnostics;
+ï»¿using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameOverMenu : MonoBehaviour
 {
-    [Header("Game Over ÆĞ³Î")]
+    [Header("Game Over íŒ¨ë„")]
     [SerializeField] private GameObject gameOverPanel;
+
+    [Header("ë°°ê²½ ìŒì•… AudioSource")]
+    public AudioSource backgroundMusic;
+
+    [Header("í”Œë ˆì´ì–´ ì¡°ì‘ ìŠ¤í¬ë¦½íŠ¸ë“¤")]
+    public MonoBehaviour[] playerControlScripts;
+
+    private bool isMenuShown = false;
 
     void Start()
     {
         if (gameOverPanel != null)
-        {
-            gameOverPanel.SetActive(false); // ½ÃÀÛ ½Ã ²¨µÎ±â
-        }
+            gameOverPanel.SetActive(false);
         else
-        {
-            UnityEngine.Debug.LogWarning("[GameOverMenu] GameOverPanelÀÌ ¿¬°áµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
-        }
+            UnityEngine.Debug.LogWarning("[GameOverMenu] GameOverPanelì´ ì—°ê²°ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+
+        isMenuShown = false;
     }
 
     public void Show()
     {
-        if (gameOverPanel != null)
+        if (isMenuShown || gameOverPanel == null) return;
+
+        gameOverPanel.SetActive(true);
+        backgroundMusic.Stop();
+        AudioManager.Instance.PlayGameOver();
+        Time.timeScale = 0f;
+        isMenuShown = true;
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        foreach (var script in playerControlScripts)
         {
-            gameOverPanel.SetActive(true);
-            Time.timeScale = 0f; // °ÔÀÓ ÀÏ½ÃÁ¤Áö (¼±ÅÃ)
+            if (script != null)
+                script.enabled = false;
         }
+    }
+
+    public void ReturnToMainMenu()
+    {
+        AudioManager.Instance.PlayUIClick();
+        Time.timeScale = 1f;
+
+        foreach (var script in playerControlScripts)
+        {
+            if (script != null)
+                script.enabled = true;
+        }
+
+        // âŒ ì»¤ì„œ ìƒíƒœëŠ” ë³€ê²½í•˜ì§€ ì•ŠìŒ (ë©”ì¸ ë©”ë‰´ ì”¬ì—ì„œ ë§ˆìš°ìŠ¤ UI ê³„ì† ì‚¬ìš© ê°€ëŠ¥)
+
+        SceneManager.LoadScene("MainMenuScene");
     }
 }

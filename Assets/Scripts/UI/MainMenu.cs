@@ -11,6 +11,7 @@ public class MainMenu : MonoBehaviour
     public void StartGame()
     {
         UnityEngine.Debug.Log("게임 시작!");
+        AudioManager.Instance.PlayUIClick();
         SceneManager.LoadScene(gameSceneName);
     }
 
@@ -18,6 +19,7 @@ public class MainMenu : MonoBehaviour
     public void QuitGame()
     {
         UnityEngine.Debug.Log("게임 종료 요청");
+        AudioManager.Instance.PlayUIClick();
         UnityEngine.Application.Quit();
     }
 }

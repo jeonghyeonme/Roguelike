@@ -17,7 +17,11 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerState currentState;
     private float dashTimer;
-    private float lastDashTime;
+
+    private float lastDashTime = -999f; // ✅ 대시 쿨타임 초기화
+    public float LastDashTime => lastDashTime;
+
+    private float inputBlockTimer = 0.3f; // ✅ 씬 시작 후 0.3초 동안 입력 무시
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -41,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
         movement = Vector2.zero;
         lastMoveDirection = Vector2.down;
 
+        lastDashTime = Time.time; // ✅ 씬 시작 시 대시 쿨타임 방지
         ChangeState(PlayerState.Idle);
     }
 
@@ -48,6 +53,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isDead) return;
         if (feedback != null && feedback.isStunned) return;
+
+        inputBlockTimer -= Time.deltaTime; // ✅ 입력 차단 타이머 감소
 
         switch (currentState)
         {
@@ -89,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
         UpdateAnimation();
         HandleSpriteFlip();
 
-        if (Input.GetKeyDown(KeyCode.Space) && CanDash())
+        if (inputBlockTimer <= 0f && Input.GetKeyDown(KeyCode.Space) && CanDash())
             ChangeState(PlayerState.Dash);
         else if (movement != Vector2.zero)
             ChangeState(PlayerState.Move);
@@ -102,7 +109,7 @@ public class PlayerMovement : MonoBehaviour
         UpdateAnimation();
         HandleSpriteFlip();
 
-        if (Input.GetKeyDown(KeyCode.Space) && CanDash())
+        if (inputBlockTimer <= 0f && Input.GetKeyDown(KeyCode.Space) && CanDash())
             ChangeState(PlayerState.Dash);
         else if (movement == Vector2.zero)
             ChangeState(PlayerState.Idle);
@@ -140,6 +147,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (state == PlayerState.Dash)
         {
+            AudioManager.Instance?.PlayDash(); // ✅ 진입 시점에서만 한 번 재생
             dashTimer = 0f;
             if (trail != null) trail.emitting = true;
         }

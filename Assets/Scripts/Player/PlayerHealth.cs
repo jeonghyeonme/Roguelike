@@ -5,7 +5,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 {
     public int maxHealth = 5;
     public GameObject gameManagerObject; // UI 오브젝트를 연결
-    private int currentHealth;
+    public int currentHealth;
 
     private DamageFeedback feedback;
     private Animator animator;
@@ -30,6 +30,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (isDead) return;
 
         currentHealth -= amount;
+        AudioManager.Instance.PlayHit();
         UnityEngine.Debug.Log($"[Player] 피격! 현재 체력: {currentHealth}");
 
         if (feedback != null)

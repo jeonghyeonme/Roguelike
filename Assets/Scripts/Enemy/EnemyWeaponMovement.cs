@@ -58,6 +58,7 @@ public class EnemyWeaponMovement : MonoBehaviour
         if (distanceToPlayer <= attackRange && Time.time >= lastAttackTime + attackCooldown)
         {
             weaponAnimator.SetTrigger("Attack");
+            AudioManager.Instance.PlaySwing();
             lastAttackTime = Time.time;
         }
     }

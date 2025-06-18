@@ -53,6 +53,7 @@ public class WeaponMovement : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && Time.time >= lastAttackTime + attackCooldown)
         {
             weaponAnimator.SetTrigger("Attack");
+            AudioManager.Instance.PlaySlash();
             lastAttackTime = Time.time;
         }
     }

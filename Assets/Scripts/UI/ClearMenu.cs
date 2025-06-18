@@ -8,6 +8,9 @@ public class ClearMenu : MonoBehaviour
     [Tooltip("클리어 시 활성화할 UI 패널")]
     public GameObject clearMenuPanel;
 
+    [Header("배경 음악 AudioSource")]
+    public AudioSource backgroundMusic;
+
     [Header("플레이어 조작 스크립트들")]
     [Tooltip("조작을 차단할 플레이어 제어 스크립트들")]
     public MonoBehaviour[] playerControlScripts;
@@ -41,6 +44,8 @@ public class ClearMenu : MonoBehaviour
         if (isMenuShown || clearMenuPanel == null) return;
 
         clearMenuPanel.SetActive(true);
+        backgroundMusic.Stop();
+        AudioManager.Instance.PlayGameClear();
         Time.timeScale = 0f;
         isMenuShown = true;
 
@@ -65,6 +70,7 @@ public class ClearMenu : MonoBehaviour
     // ✅ 버튼 연결: 메인 메뉴로 이동
     public void ReturnToMainMenu()
     {
+        AudioManager.Instance.PlayUIClick();
         // 게임 속도 복구
         Time.timeScale = 1f;
 

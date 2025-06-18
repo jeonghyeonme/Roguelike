@@ -24,6 +24,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         if (isDead) return;
 
         currentHealth -= amount;
+        AudioManager.Instance.PlayHit();
         UnityEngine.Debug.Log($"[Enemy] 피격! 현재 체력: {currentHealth}");
 
         if (feedback != null)
